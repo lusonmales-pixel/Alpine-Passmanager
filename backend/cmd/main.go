@@ -12,19 +12,19 @@ func main() {
 
 	conn, err := db.ConnectDB(ctx)
 	if err != nil {
-		log.Println("Error while connecting DB", err)
+		log.Fatalln("Error while connecting DB", err)
 	}
 
 	defer conn.Close(ctx)
 
 	err = db.InitTable(ctx, conn)
 	if err != nil {
-		log.Println("Error while init table:", err)
+		log.Fatalln("Error while init table:", err)
 	}
 
 	err = http.ListenAndServe(":8080", nil)
 	if err != nil {
-		log.Println("Failed to start server!")
+		log.Fatalln("Failed to start server!")
 	}
 
 }
