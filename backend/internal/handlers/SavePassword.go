@@ -28,13 +28,13 @@ func (e *Env) SavePassword(w http.ResponseWriter, r *http.Request) {
 		WriteJSONError(w, http.StatusBadRequest, "Failed to convert req. body:", err)
 	}
 
-	userID, err := db.GetIDByUsername(ctx, e.conn, SavePassReq.Username)
+	userID, err := db.GetIDByUsername(ctx, e.Conn, SavePassReq.Username)
 	if err != nil {
 		WriteJSONError(w, http.StatusInternalServerError, "Failed to get user id!", err)
 	}
 
 	err = db.SavePassword(ctx,
-		e.conn,
+		e.Conn,
 		userID,
 		SavePassReq.ServiceName,
 		SavePassReq.Login,

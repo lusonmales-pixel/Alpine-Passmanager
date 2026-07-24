@@ -43,7 +43,7 @@ func (e *Env) RegisterUser(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	err = db.CreateUser(ctx, e.conn, RegReq.Username, RegReq.MasterSalt, RegReq.Verifier)
+	err = db.CreateUser(ctx, e.Conn, RegReq.Username, RegReq.MasterSalt, RegReq.Verifier)
 	if err != nil {
 		WriteJSONError(w, http.StatusInternalServerError, "Failed to create user!", err)
 		return

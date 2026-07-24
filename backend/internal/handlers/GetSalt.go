@@ -30,7 +30,7 @@ func (e *Env) GetSalt(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	salt, _, err := db.GetInfoByUsername(ctx, e.conn, SaltReq.Username)
+	salt, _, err := db.GetInfoByUsername(ctx, e.Conn, SaltReq.Username)
 	if err != nil {
 		WriteJSONError(w, http.StatusInternalServerError, "Failed to get salt:", err)
 		return
@@ -43,5 +43,6 @@ func (e *Env) GetSalt(w http.ResponseWriter, r *http.Request) {
 	}
 
 	w.Header().Add("Content-Type", "application/json")
+	w.WriteHeader(http.StatusOK)
 	w.Write(saltByte)
 }
