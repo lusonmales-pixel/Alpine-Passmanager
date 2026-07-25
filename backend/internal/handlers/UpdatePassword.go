@@ -7,25 +7,27 @@ import (
 	"net/http"
 )
 
-type SavePasswordRequest struct {
+type UpdatePasswordRequest struct {
+	ID                int    `json:"id"`
 	ServiceName       string `json:"service_name"`
 	Login             string `json:"login"`
 	EncryptedPassword []byte `json:"encrypted_password"`
 	Nonce             []byte `json:"nonce"`
 }
 
-func (e *Env) SavePassword(w http.ResponseWriter, r *http.Request) {
+func (e *Env) UpdatePassword(w http.ResponseWriter, r *http.Request) {
 	ctx := r.Context()
-	var SavePassReq SavePasswordRequest
-	httpRequsetBody, err := io.ReadAll(r.Body)
+	var UpdateRequest UpdatePasswordRequest
+
+	httpRequestBody, err := io.ReadAll(r.Body)
 	if err != nil {
 		WriteJSONError(w, http.StatusBadRequest, "Failed to read req. body:", err)
 		return
 	}
 
-	err = json.Unmarshal(httpRequsetBody, &SavePassReq)
+	err = json.Unmarshal(httpRequestBody, &UpdateRequest)
 	if err != nil {
-		WriteJSONError(w, http.StatusBadRequest, "Failed to convert req. body:", err)
+		WriteJSONError(w, http.StatusBadRequest, "Failed to convert req. body", err)
 		return
 	}
 
@@ -34,18 +36,19 @@ func (e *Env) SavePassword(w http.ResponseWriter, r *http.Request) {
 		WriteJSONError(w, http.StatusUnauthorized, "No claims found", nil)
 		return
 	}
-	userID := claims.UserID
 
-	err = db.SavePassword(ctx,
+	UserID := claims.UserID
+
+	err = db.UpdatePassword(ctx,
 		e.Conn,
-		userID,
-		SavePassReq.ServiceName,
-		SavePassReq.Login,
-		SavePassReq.EncryptedPassword,
-		SavePassReq.Nonce)
-
+		UpdateRequest.ID,
+		UserID,
+		UpdateRequest.ServiceName,
+		UpdateRequest.Login,
+		UpdateRequest.EncryptedPassword,
+		UpdateRequest.Nonce)
 	if err != nil {
-		WriteJSONError(w, http.StatusInternalServerError, "Failed to save password!", err)
+		WriteJSONError(w, http.StatusInternalServerError, "Failed to update password!", err)
 		return
 	}
 

@@ -29,6 +29,9 @@ func main() {
 	http.HandleFunc("/login", env.Login)
 	http.Handle("/savePassword", env.AuthMiddleware(env.SavePassword))
 	http.HandleFunc("/getSalt", env.GetSalt)
+	http.Handle("/getPasswords", env.AuthMiddleware(env.GetPasswords))
+	http.Handle("/updatePassword", env.AuthMiddleware(env.UpdatePassword))
+	http.Handle("/deletePassword", env.AuthMiddleware(env.DeletePassword))
 
 	err = http.ListenAndServe(":8080", nil)
 	if err != nil {

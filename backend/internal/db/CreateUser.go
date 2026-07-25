@@ -8,7 +8,7 @@ import (
 
 func CreateUser(ctx context.Context, conn *pgx.Conn, username string, master_salt []byte, verifier []byte) error {
 	sqlQuery := `
-	INSERT INTO user (username, master_salt, verifier)
+	INSERT INTO users (username, master_salt, verifier)
 	VALUES ($1, $2, $3)
 	`
 
