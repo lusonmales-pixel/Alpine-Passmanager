@@ -5,6 +5,7 @@ import (
 	"encoding/json"
 	"io"
 	"net/http"
+	"strings"
 )
 
 type SavePasswordRequest struct {
@@ -16,16 +17,43 @@ type SavePasswordRequest struct {
 
 func (e *Env) SavePassword(w http.ResponseWriter, r *http.Request) {
 	ctx := r.Context()
-	var SavePassReq SavePasswordRequest
-	httpRequsetBody, err := io.ReadAll(r.Body)
-	if err != nil {
-		WriteJSONError(w, http.StatusBadRequest, "Failed to read req. body:", err)
+
+	if r.Header.Get("Content-Type") != "application/json" {
+		WriteJSONError(w, http.StatusUnsupportedMediaType, "Content-Type must be application/json", nil)
 		return
 	}
 
-	err = json.Unmarshal(httpRequsetBody, &SavePassReq)
+	r.Body = http.MaxBytesReader(w, r.Body, 1<<20)
+
+	var SavePassReq SavePasswordRequest
+	httpRequestBody, err := io.ReadAll(r.Body)
 	if err != nil {
-		WriteJSONError(w, http.StatusBadRequest, "Failed to convert req. body:", err)
+		WriteJSONError(w, http.StatusBadRequest, "Failed to read req. body", err)
+		return
+	}
+
+	err = json.Unmarshal(httpRequestBody, &SavePassReq)
+	if err != nil {
+		WriteJSONError(w, http.StatusBadRequest, "Failed to convert req. body", err)
+		return
+	}
+
+	SavePassReq.ServiceName = strings.TrimSpace(SavePassReq.ServiceName)
+	SavePassReq.Login = strings.TrimSpace(SavePassReq.Login)
+	if SavePassReq.ServiceName == "" {
+		WriteJSONError(w, http.StatusBadRequest, "Service name is required", nil)
+		return
+	}
+	if SavePassReq.Login == "" {
+		WriteJSONError(w, http.StatusBadRequest, "Login is required", nil)
+		return
+	}
+	if len(SavePassReq.EncryptedPassword) == 0 {
+		WriteJSONError(w, http.StatusBadRequest, "Encrypted password is required", nil)
+		return
+	}
+	if len(SavePassReq.Nonce) == 0 {
+		WriteJSONError(w, http.StatusBadRequest, "Nonce is required", nil)
 		return
 	}
 
@@ -45,7 +73,7 @@ func (e *Env) SavePassword(w http.ResponseWriter, r *http.Request) {
 		SavePassReq.Nonce)
 
 	if err != nil {
-		WriteJSONError(w, http.StatusInternalServerError, "Failed to save password!", err)
+		WriteJSONError(w, http.StatusInternalServerError, "Failed to save password", err)
 		return
 	}
 

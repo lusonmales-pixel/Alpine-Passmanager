@@ -17,17 +17,30 @@ type UpdatePasswordRequest struct {
 
 func (e *Env) UpdatePassword(w http.ResponseWriter, r *http.Request) {
 	ctx := r.Context()
+
+	if r.Header.Get("Content-Type") != "application/json" {
+		WriteJSONError(w, http.StatusUnsupportedMediaType, "Content-Type must be application/json", nil)
+		return
+	}
+
+	r.Body = http.MaxBytesReader(w, r.Body, 1<<20)
+
 	var UpdateRequest UpdatePasswordRequest
 
 	httpRequestBody, err := io.ReadAll(r.Body)
 	if err != nil {
-		WriteJSONError(w, http.StatusBadRequest, "Failed to read req. body:", err)
+		WriteJSONError(w, http.StatusBadRequest, "Failed to read req. body", err)
 		return
 	}
 
 	err = json.Unmarshal(httpRequestBody, &UpdateRequest)
 	if err != nil {
 		WriteJSONError(w, http.StatusBadRequest, "Failed to convert req. body", err)
+		return
+	}
+
+	if UpdateRequest.ID <= 0 {
+		WriteJSONError(w, http.StatusBadRequest, "Invalid password ID", nil)
 		return
 	}
 

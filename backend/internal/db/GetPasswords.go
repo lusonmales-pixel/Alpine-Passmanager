@@ -35,6 +35,10 @@ func GetPasswords(ctx context.Context, conn *pgx.Conn, userID int) ([]PasswordBl
 		PasswordBlocks = append(PasswordBlocks, PassBlock)
 	}
 
+	if err = rows.Err(); err != nil {
+		return nil, err
+	}
+
 	return PasswordBlocks, nil
 
 }

@@ -2,18 +2,25 @@ package db
 
 import (
 	"context"
-	"log"
+	"log/slog"
+	"os"
 
 	"github.com/jackc/pgx/v5"
 )
 
 func ConnectDB(ctx context.Context) (*pgx.Conn, error) {
-	conn, err := pgx.Connect(ctx, "postgres://postgres:12345@localhost:5432/alpine") // ЭТО ТОЖЕ НЕ ПЫТАЙТЕСЬ СПИЗДИТЬ, НА РЕЛИЗЕ ПОМЕНЯЮ!!!
+	dbURL := os.Getenv("DATABASE_URL")
+	if dbURL == "" {
+		dbURL = "postgres://postgres:12345@localhost:5432/alpine"
+		slog.Warn("DATABASE_URL not set, using default (insecure for production)")
+	}
+
+	conn, err := pgx.Connect(ctx, dbURL)
 	if err != nil {
 		return nil, err
 	}
 
-	log.Println("DB connected successfully!")
+	slog.Info("DB connected successfully")
 
 	return conn, nil
 

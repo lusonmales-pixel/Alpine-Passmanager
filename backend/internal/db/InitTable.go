@@ -2,7 +2,7 @@ package db
 
 import (
 	"context"
-	"log"
+	"log/slog"
 
 	"github.com/jackc/pgx/v5"
 )
@@ -27,6 +27,8 @@ func InitTable(ctx context.Context, conn *pgx.Conn) error {
 	created_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP,
 	updated_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP
 	);
+
+	CREATE INDEX IF NOT EXISTS idx_passwords_user_id ON passwords(user_id);
 	`
 
 	_, err := conn.Exec(ctx, sqlQuery)
@@ -34,7 +36,7 @@ func InitTable(ctx context.Context, conn *pgx.Conn) error {
 		return err
 	}
 
-	log.Println("Tables inited successfully!")
+	slog.Info("Tables initialized successfully")
 
 	return nil
 

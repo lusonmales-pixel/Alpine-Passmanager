@@ -8,6 +8,7 @@ import (
 	"encoding/json"
 	"io"
 	"net/http"
+	"strings"
 )
 
 type LoginRequest struct {
@@ -21,6 +22,14 @@ type LoginResponse struct {
 
 func (e *Env) Login(w http.ResponseWriter, r *http.Request) {
 	ctx := r.Context()
+
+	if r.Header.Get("Content-Type") != "application/json" {
+		WriteJSONError(w, http.StatusUnsupportedMediaType, "Content-Type must be application/json", nil)
+		return
+	}
+
+	r.Body = http.MaxBytesReader(w, r.Body, 1<<20)
+
 	var LogReq LoginRequest
 	httpRequestBody, err := io.ReadAll(r.Body)
 	if err != nil {
@@ -34,6 +43,16 @@ func (e *Env) Login(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
+	LogReq.Username = strings.TrimSpace(LogReq.Username)
+	if LogReq.Username == "" {
+		WriteJSONError(w, http.StatusBadRequest, "Username is required", nil)
+		return
+	}
+	if len(LogReq.AuthKey) == 0 {
+		WriteJSONError(w, http.StatusBadRequest, "Auth key is required", nil)
+		return
+	}
+
 	_, verifierDB, err := db.GetInfoByUsername(ctx, e.Conn, LogReq.Username)
 	if err != nil {
 		WriteJSONError(w, http.StatusInternalServerError, "Error while get user info", err)
@@ -43,7 +62,7 @@ func (e *Env) Login(w http.ResponseWriter, r *http.Request) {
 	computedVerifier := crypto.CreateVerifier(LogReq.AuthKey)
 
 	if !bytes.Equal(verifierDB, computedVerifier) {
-		WriteJSONError(w, http.StatusForbidden, "Wrong password!", err)
+		WriteJSONError(w, http.StatusForbidden, "Wrong password!", nil)
 		return
 	}
 
