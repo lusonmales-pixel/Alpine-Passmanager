@@ -1,0 +1,99 @@
+:root {
+  color-scheme: dark;
+
+  /* Surfaces */
+  --color-background: #111214;
+  --color-background-raised: #151619;
+  --color-surface: #191a1d;
+  --color-surface-elevated: #202125;
+  --color-surface-hover: #27282d;
+  --color-surface-pressed: #2c2d33;
+
+  /* Lines */
+  --color-border: #2b2d32;
+  --color-border-strong: #3a3c43;
+  --color-border-faint: rgba(242, 242, 244, 0.06);
+
+  /* Type */
+  --color-text-primary: #f2f2f4;
+  --color-text-secondary: #92949e;
+  --color-text-muted: #8e919b;
+  --color-text-subtle: #858892;
+
+  /* Accent */
+  --color-accent: #a5a1ff;
+  --color-accent-hover: #b7b3ff;
+  --color-accent-pressed: #918cf5;
+  --color-accent-subtle: rgba(165, 161, 255, 0.12);
+  --color-accent-faint: rgba(165, 161, 255, 0.06);
+  --color-accent-border: rgba(165, 161, 255, 0.28);
+
+  /* Semantic */
+  --color-success: #72c99a;
+  --color-success-subtle: rgba(114, 201, 154, 0.11);
+  --color-danger: #f07878;
+  --color-danger-hover: #f58d8d;
+  --color-danger-subtle: rgba(240, 120, 120, 0.11);
+  --color-warning: #e7bb70;
+  --color-warning-subtle: rgba(231, 187, 112, 0.1);
+  --color-overlay: rgba(7, 7, 9, 0.72);
+
+  /* Geometry */
+  --radius-control: 8px;
+  --radius-card: 12px;
+  --radius-panel: 16px;
+  --radius-large: 20px;
+  --radius-pill: 999px;
+
+  /* Elevation */
+  --shadow-popover: 0 12px 40px rgba(0, 0, 0, 0.24);
+  --shadow-dialog: 0 24px 80px rgba(0, 0, 0, 0.52);
+  --shadow-frame: 0 32px 90px rgba(0, 0, 0, 0.38);
+
+  /* Type */
+  --font-sans:
+    'Inter Variable', 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI',
+    sans-serif;
+  --font-mono:
+    ui-monospace, 'SFMono-Regular', 'SF Mono', Menlo, Consolas, monospace;
+
+  --text-2xs: 0.6875rem;
+  --text-xs: 0.75rem;
+  --text-sm: 0.8125rem;
+  --text-base: 0.875rem;
+  --text-md: 1rem;
+  --text-lg: 1.125rem;
+  --text-xl: 1.375rem;
+  --text-2xl: 1.75rem;
+  --text-3xl: 2.25rem;
+  --text-4xl: 3rem;
+  --text-display: clamp(2.85rem, 5.1vw, 4.25rem);
+
+  /* Space */
+  --space-1: 0.25rem;
+  --space-2: 0.5rem;
+  --space-3: 0.75rem;
+  --space-4: 1rem;
+  --space-5: 1.25rem;
+  --space-6: 1.5rem;
+  --space-8: 2rem;
+  --space-10: 2.5rem;
+  --space-12: 3rem;
+  --space-16: 4rem;
+  --space-20: 5rem;
+  --space-24: 6rem;
+
+  /* Motion */
+  --ease-out: cubic-bezier(0.22, 1, 0.36, 1);
+  --ease-standard: cubic-bezier(0.2, 0, 0, 1);
+  --duration-fast: 120ms;
+  --duration-base: 180ms;
+  --duration-slow: 320ms;
+
+  /* Layout */
+  --page-max: 1200px;
+  --sidebar-width: 248px;
+  --list-width: 352px;
+  --header-height: 72px;
+  --mobile-header-height: 60px;
+}

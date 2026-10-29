@@ -11,7 +11,6 @@ import (
 func ConnectDB(ctx context.Context) (*pgx.Conn, error) {
 	dbURL := os.Getenv("DATABASE_URL")
 	if dbURL == "" {
-		dbURL = "postgres://postgres:12345@localhost:5432/alpine"
 		slog.Warn("DATABASE_URL not set, using default (insecure for production)")
 	}
 

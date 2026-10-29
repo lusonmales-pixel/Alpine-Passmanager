@@ -1,0 +1,137 @@
+.dialog {
+  width: min(92vw, 520px);
+  max-height: min(90dvh, 780px);
+  margin: auto;
+  padding: 0;
+  border: 1px solid var(--color-border-strong);
+  border-radius: var(--radius-panel);
+  background: var(--color-surface-elevated);
+  color: var(--color-text-primary);
+  box-shadow: var(--shadow-dialog);
+  overflow: hidden;
+  animation: modal-in var(--duration-base) var(--ease-out);
+}
+
+.dialog::backdrop {
+  background: var(--color-overlay);
+  animation: fade-in var(--duration-base) var(--ease-standard);
+}
+
+.dialog[open] {
+  display: flex;
+}
+
+.sm {
+  width: min(92vw, 420px);
+}
+
+.lg {
+  width: min(92vw, 640px);
+}
+
+.panel {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  max-height: inherit;
+  min-height: 0;
+}
+
+.header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 22px 24px 0;
+}
+
+.heading {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  min-width: 0;
+}
+
+.title {
+  font-size: var(--text-xl);
+  font-weight: 580;
+  letter-spacing: -0.02em;
+  line-height: 1.2;
+}
+
+.description {
+  color: var(--color-text-secondary);
+  font-size: var(--text-sm);
+  line-height: 1.5;
+  max-width: 46ch;
+}
+
+.close {
+  display: grid;
+  place-items: center;
+  flex: none;
+  width: 30px;
+  height: 30px;
+  margin: -4px -4px 0 0;
+  border-radius: 7px;
+  color: var(--color-text-muted);
+  transition:
+    color var(--duration-fast) var(--ease-standard),
+    background-color var(--duration-fast) var(--ease-standard);
+}
+
+.close:hover:not(:disabled) {
+  background: var(--color-surface-hover);
+  color: var(--color-text-primary);
+}
+
+.close:disabled {
+  opacity: 0.35;
+}
+
+.body {
+  padding: 20px 24px 24px;
+  overflow-y: auto;
+  min-height: 0;
+}
+
+.footer {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 8px;
+  padding: 16px 24px;
+  border-top: 1px solid var(--color-border);
+  background: rgba(17, 18, 20, 0.28);
+}
+
+@keyframes modal-in {
+  from {
+    opacity: 0;
+    transform: translateY(8px) scale(0.99);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+@media (max-width: 520px) {
+  .dialog {
+    width: calc(100vw - 24px);
+    max-height: calc(100dvh - 24px);
+    border-radius: 14px;
+  }
+
+  .header {
+    padding: 18px 18px 0;
+  }
+
+  .body {
+    padding: 18px;
+  }
+
+  .footer {
+    padding: 14px 18px;
+  }
+}

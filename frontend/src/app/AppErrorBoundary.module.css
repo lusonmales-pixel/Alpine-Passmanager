@@ -1,0 +1,72 @@
+.shell {
+  display: flex;
+  flex-direction: column;
+  min-height: 100dvh;
+  padding: 36px;
+  background: var(--color-background);
+}
+
+.content {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 12px;
+  max-width: 460px;
+  margin: auto;
+}
+
+.code {
+  color: var(--color-accent);
+  font-family: var(--font-mono);
+  font-size: 10px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+.content h1 {
+  color: var(--color-text-primary);
+  font-size: 34px;
+  font-weight: 560;
+  letter-spacing: -0.045em;
+  line-height: 1.1;
+}
+
+.text {
+  margin-top: 4px;
+  color: var(--color-text-secondary);
+  font-size: var(--text-sm);
+  line-height: 1.7;
+}
+
+.actions {
+  display: flex;
+  gap: 8px;
+  margin-top: 14px;
+}
+
+.primary,
+.secondary {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  height: 40px;
+  padding: 0 16px;
+  border-radius: var(--radius-control);
+  font-size: var(--text-sm);
+  font-weight: 540;
+}
+
+.primary {
+  background: var(--color-accent);
+  color: #17161f;
+}
+
+.secondary {
+  border: 1px solid var(--color-border);
+  background: var(--color-surface);
+  color: var(--color-text-primary);
+}
+
+.secondary:hover {
+  background: var(--color-surface-hover);
+}

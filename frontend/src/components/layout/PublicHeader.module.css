@@ -1,0 +1,93 @@
+.header {
+  position: sticky;
+  top: 0;
+  z-index: 60;
+  border-bottom: 1px solid var(--color-border);
+  background: var(--color-background);
+}
+
+.inner {
+  display: flex;
+  align-items: center;
+  gap: 32px;
+  max-width: var(--page-max);
+  height: var(--header-height);
+  margin: 0 auto;
+  padding: 0 28px;
+}
+
+.brand {
+  display: inline-flex;
+  flex: none;
+  border-radius: var(--radius-control);
+}
+
+.nav {
+  display: flex;
+  align-items: center;
+  gap: 26px;
+  margin-left: 12px;
+}
+
+.nav a {
+  padding: 8px 0;
+  color: var(--color-text-secondary);
+  font-size: var(--text-sm);
+  font-weight: 460;
+  transition: color var(--duration-fast) var(--ease-standard);
+}
+
+.nav a:hover {
+  color: var(--color-text-primary);
+}
+
+.actions {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin-left: auto;
+}
+
+.signIn {
+  display: inline-flex;
+  align-items: center;
+  height: 32px;
+  padding: 0 12px;
+  border-radius: 7px;
+  color: var(--color-text-secondary);
+  font-size: var(--text-sm);
+  font-weight: 480;
+  transition:
+    color var(--duration-fast) var(--ease-standard),
+    background-color var(--duration-fast) var(--ease-standard);
+}
+
+.signIn:hover {
+  background: var(--color-surface-hover);
+  color: var(--color-text-primary);
+}
+
+@media (max-width: 860px) {
+  .nav {
+    display: none;
+  }
+
+  .inner {
+    gap: 16px;
+  }
+}
+
+@media (max-width: 560px) {
+  .inner {
+    height: var(--mobile-header-height);
+    padding: 0 18px;
+  }
+
+  .logoName {
+    display: none;
+  }
+
+  .signIn {
+    padding: 0 8px;
+  }
+}
